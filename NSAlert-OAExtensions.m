@@ -38,7 +38,7 @@
 {
     // We have to live until the callback, but a -retain will annoy clang-sa.
 	[self performSelector:@selector(retain)];
-    [_alert beginSheetModalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:NULL];
+    [_alert oa_beginSheetModalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:NULL];
 }
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
@@ -56,7 +56,7 @@
 
 @implementation NSAlert (OAExtensions)
 
-- (void)beginSheetModalForWindow:(NSWindow *)window completionHandler:(OAAlertSheetCompletionHandler)completionHandler;
+- (void)oa_beginSheetModalForWindow:(NSWindow *)window completionHandler:(OAAlertSheetCompletionHandler)completionHandler;
 {
     _OAAlertSheetCompletionHandlerRunner *runner = [[_OAAlertSheetCompletionHandlerRunner alloc] initWithAlert:self completionHandler:completionHandler];
     [runner startOnWindow:window];
@@ -89,7 +89,7 @@ void OABeginAlertSheet(NSString *title, NSString *defaultButton, NSString *alter
     if (otherButton)
         [alert addButtonWithTitle:otherButton];
     
-    [alert beginSheetModalForWindow:docWindow completionHandler:completionHandler];
+    [alert oa_beginSheetModalForWindow:docWindow completionHandler:completionHandler];
     [alert release]; // retained by the runner while the sheet is up
 }
 
